@@ -2,6 +2,7 @@ import numpy as np
 import pymunk
 from ev3sim.objects.base import objectFactory
 from ev3sim.simulation.world import World
+from ev3sim.objects.base import STATIC_CATEGORY, DYNAMIC_CATEGORY
 
 class UltrasonicSensorMixin:
 
@@ -29,7 +30,7 @@ class UltrasonicSensorMixin:
                 for shape in obj.shapes:
                     cats.append(shape.filter.categories)
                     shape.filter = pymunk.ShapeFilter(categories=0b1)
-            raycast = World.instance.space.segment_query_first(startPosition, endPosition, self.RAYCAST_RADIUS, pymunk.ShapeFilter(mask=pymunk.ShapeFilter.ALL_MASKS ^ 0b1))
+            raycast = World.instance.space.segment_query_first(startPosition, endPosition, self.RAYCAST_RADIUS, pymunk.ShapeFilter(mask=STATIC_CATEGORY & DYNAMIC_CATEGORY))
             i = 0
             for obj in self.ignore_objects:
                 for shape in obj.shapes:
