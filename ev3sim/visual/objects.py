@@ -211,6 +211,7 @@ class Image(Colorable):
         shape.friction = physObj.friction_coefficient
         shape.elasticity = physObj.restitution_coefficient
         shape.collision_type = 1
+        shape.sensor = physObj.sensor
         from ev3sim.objects.base import STATIC_CATEGORY, DYNAMIC_CATEGORY
         shape.filter = pymunk.ShapeFilter(categories=STATIC_CATEGORY if physObj.static else DYNAMIC_CATEGORY)
         return body, shape
@@ -305,6 +306,7 @@ class Polygon(Colorable):
         shape.friction = physObj.friction_coefficient
         shape.elasticity = physObj.restitution_coefficient
         shape.collision_type = 1
+        shape.sensor = physObj.sensor
         from ev3sim.objects.base import STATIC_CATEGORY, DYNAMIC_CATEGORY
         shape.filter = pymunk.ShapeFilter(categories=STATIC_CATEGORY if physObj.static else DYNAMIC_CATEGORY)
         return body, shape
@@ -357,6 +359,7 @@ class Circle(Colorable):
         shape.friction = physObj.friction_coefficient
         shape.elasticity = physObj.restitution_coefficient
         shape.collision_type = 1
+        shape.sensor = physObj.sensor
         from ev3sim.objects.base import STATIC_CATEGORY, DYNAMIC_CATEGORY
         shape.filter = pymunk.ShapeFilter(categories=STATIC_CATEGORY if physObj.static else DYNAMIC_CATEGORY)
         return body, shape

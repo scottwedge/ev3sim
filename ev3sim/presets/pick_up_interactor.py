@@ -41,7 +41,9 @@ class PickUpInteractor(IInteractor):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             m_pos = screenspace_to_worldspace(event.pos)
             shapes = World.instance.space.point_query(m_pos, 0.0, pymunk.ShapeFilter(mask=pymunk.ShapeFilter.ALL_MASKS ^ STATIC_CATEGORY))
-            if len(shapes) > 0:
+            if shapes:
+                max_z = max(pq.shape.obj.clickZ for pq in shapes)
+                shapes = [pq for pq in shapes if pq.shape.obj.clickZ == max_z]
                 self.obj = shapes[0].shape.obj
                 self.obj.body.velocity = np.array([0.0, 0.0])
                 self.obj_grabbed = True
@@ -51,7 +53,9 @@ class PickUpInteractor(IInteractor):
             # If a robot is right clicked, copy it's ID for use in the attach script.
             m_pos = screenspace_to_worldspace(event.pos)
             shapes = World.instance.space.point_query(m_pos, 0.0, pymunk.ShapeFilter(mask=pymunk.ShapeFilter.ALL_MASKS ^ STATIC_CATEGORY))
-            if len(shapes) > 0:
+            if shapes:
+                max_z = max(pq.shape.obj.clickZ for pq in shapes)
+                shapes = [pq for pq in shapes if pq.shape.obj.clickZ == max_z]
                 self.obj = shapes[0].shape.obj
                 if hasattr(self.obj, 'robot_class'):
                     pyperclip.copy(self.obj.robot_class.ID)
