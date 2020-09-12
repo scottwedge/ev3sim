@@ -70,6 +70,7 @@ class IDeviceInteractor(IInteractor):
         self.physical_object.children.extend(self.generated)
     
     def afterPhysics(self):
+        from ev3sim.objects.base import PhysicsObject
         for i, obj in enumerate(self.generated):
             obj.position = local_space_to_world_space(
                 self.relative_location + local_space_to_world_space(self.relative_positions[i], self.relative_rotation, np.array([0 ,0])), 
@@ -77,6 +78,9 @@ class IDeviceInteractor(IInteractor):
                 self.physical_object.position,
             )
             obj.rotation = self.physical_object.rotation + self.relative_rotation
+            if isinstance(obj, PhysicsObject):
+                obj.body.position = obj.position
+                obj.body.angle = obj.rotation
 
 def initialise_device(deviceData, parentObj, index):
     classes = find_abs('devices/classes.yaml')
